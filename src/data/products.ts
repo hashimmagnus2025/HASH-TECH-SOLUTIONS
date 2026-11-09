@@ -11,8 +11,6 @@ import {
 } from "lucide-react";
 import type { ProductCategory, ProductItem } from "@/types";
 
-const PLACEHOLDER_IMAGE = "/images/placeholders/product-placeholder.svg";
-
 export const productCategories: ProductCategory[] = [
   {
     slug: "desktop-computers",
@@ -76,24 +74,24 @@ export const productCategories: ProductCategory[] = [
  * implied or should be added without confirmed product data.
  */
 export const products: ProductItem[] = [
-  { id: "p1", name: "Business Desktop Tower", category: "desktop-computers", shortDescription: "Everyday desktop configuration for office use.", image: PLACEHOLDER_IMAGE },
-  { id: "p2", name: "Compact Desktop PC", category: "desktop-computers", shortDescription: "Space-saving desktop for reception and counters.", image: PLACEHOLDER_IMAGE },
-  { id: "p3", name: "Business Laptop", category: "laptops", shortDescription: "Lightweight notebook for everyday work and travel.", image: PLACEHOLDER_IMAGE },
-  { id: "p4", name: "Performance Laptop", category: "laptops", shortDescription: "Higher-spec notebook for demanding applications.", image: PLACEHOLDER_IMAGE },
-  { id: "p5", name: "Graphics Workstation", category: "workstations", shortDescription: "Workstation configuration for design and rendering work.", image: PLACEHOLDER_IMAGE },
-  { id: "p6", name: "Engineering Workstation", category: "workstations", shortDescription: "High-compute workstation for engineering applications.", image: PLACEHOLDER_IMAGE },
-  { id: "p7", name: "Multifunction Printer", category: "printers-scanners", shortDescription: "Print, scan and copy device for office use.", image: PLACEHOLDER_IMAGE },
-  { id: "p8", name: "Document Scanner", category: "printers-scanners", shortDescription: "High-speed scanner for document digitization.", image: PLACEHOLDER_IMAGE },
-  { id: "p9", name: "Tower Server", category: "servers", shortDescription: "Server configuration for file and application hosting.", image: PLACEHOLDER_IMAGE },
-  { id: "p10", name: "Rack-Mount Server", category: "servers", shortDescription: "Rack server for data-center style deployments.", image: PLACEHOLDER_IMAGE },
-  { id: "p11", name: "Managed Network Switch", category: "networking-equipment", shortDescription: "Managed switch for segmented business networks.", image: PLACEHOLDER_IMAGE },
-  { id: "p12", name: "Wireless Access Point", category: "networking-equipment", shortDescription: "Access point for reliable office Wi-Fi coverage.", image: PLACEHOLDER_IMAGE },
-  { id: "p13", name: "IP Dome Camera", category: "cctv-cameras", shortDescription: "Indoor IP dome camera for general area coverage.", image: PLACEHOLDER_IMAGE },
-  { id: "p14", name: "HD Bullet Camera", category: "cctv-cameras", shortDescription: "Outdoor HD camera for perimeter surveillance.", image: PLACEHOLDER_IMAGE },
-  { id: "p15", name: "Biometric Access Terminal", category: "security-equipment", shortDescription: "Fingerprint terminal for access and attendance.", image: PLACEHOLDER_IMAGE },
-  { id: "p16", name: "Video Door Phone Kit", category: "security-equipment", shortDescription: "Video door phone system for controlled entry.", image: PLACEHOLDER_IMAGE },
-  { id: "p17", name: "Wireless Keyboard & Mouse Set", category: "computer-accessories", shortDescription: "Everyday wireless peripherals for desktops.", image: PLACEHOLDER_IMAGE },
-  { id: "p18", name: "External Storage Drive", category: "computer-accessories", shortDescription: "Portable storage for backup and file transfer.", image: PLACEHOLDER_IMAGE },
+  { id: "p1", name: "Business Desktop Tower", category: "desktop-computers", shortDescription: "Everyday desktop configuration for office use.", image: "/images/products/business-desktop-tower.jpg" },
+  { id: "p2", name: "Compact Desktop PC", category: "desktop-computers", shortDescription: "Space-saving desktop for reception and counters.", image: "/images/products/compact-desktop-pc.jpg" },
+  { id: "p3", name: "Business Laptop", category: "laptops", shortDescription: "Lightweight notebook for everyday work and travel.", image: "/images/products/business-laptop.jpg" },
+  { id: "p4", name: "Performance Laptop", category: "laptops", shortDescription: "Higher-spec notebook for demanding applications.", image: "/images/products/performance-laptop.jpg" },
+  { id: "p5", name: "Graphics Workstation", category: "workstations", shortDescription: "Workstation configuration for design and rendering work.", image: "/images/products/graphics-workstation.jpg" },
+  { id: "p6", name: "Engineering Workstation", category: "workstations", shortDescription: "High-compute workstation for engineering applications.", image: "/images/products/engineering-workstation.jpg" },
+  { id: "p7", name: "Multifunction Printer", category: "printers-scanners", shortDescription: "Print, scan and copy device for office use.", image: "/images/products/multifunction-printer.jpg" },
+  { id: "p8", name: "Document Scanner", category: "printers-scanners", shortDescription: "High-speed scanner for document digitization.", image: "/images/products/document-scanner.jpg" },
+  { id: "p9", name: "Tower Server", category: "servers", shortDescription: "Server configuration for file and application hosting.", image: "/images/products/tower-server.jpg" },
+  { id: "p10", name: "Rack-Mount Server", category: "servers", shortDescription: "Rack server for data-center style deployments.", image: "/images/products/rack-mount-server.jpg" },
+  { id: "p11", name: "Managed Network Switch", category: "networking-equipment", shortDescription: "Managed switch for segmented business networks.", image: "/images/products/managed-network-switch.jpg" },
+  { id: "p12", name: "Wireless Access Point", category: "networking-equipment", shortDescription: "Access point for reliable office Wi-Fi coverage.", image: "/images/products/wireless-access-point.jpg" },
+  { id: "p13", name: "IP Dome Camera", category: "cctv-cameras", shortDescription: "Indoor IP dome camera for general area coverage.", image: "/images/products/ip-dome-camera.jpg" },
+  { id: "p14", name: "HD Bullet Camera", category: "cctv-cameras", shortDescription: "Outdoor HD camera for perimeter surveillance.", image: "/images/products/hd-bullet-camera.jpg" },
+  { id: "p15", name: "Biometric Access Terminal", category: "security-equipment", shortDescription: "Fingerprint terminal for access and attendance.", image: "/images/products/biometric-access-terminal.jpg" },
+  { id: "p16", name: "Video Door Phone Kit", category: "security-equipment", shortDescription: "Video door phone system for controlled entry.", image: "/images/products/video-door-phone-kit.jpg" },
+  { id: "p17", name: "Wireless Keyboard & Mouse Set", category: "computer-accessories", shortDescription: "Everyday wireless peripherals for desktops.", image: "/images/products/wireless-keyboard-mouse-set.jpg" },
+  { id: "p18", name: "External Storage Drive", category: "computer-accessories", shortDescription: "Portable storage for backup and file transfer.", image: "/images/products/external-storage-drive.jpg" },
 ];
 
 export function getProductsByCategory(category: string) {
