@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Container from "@/components/ui/Container";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
+import Reveal from "@/components/animations/Reveal";
+import TextReveal from "@/components/animations/TextReveal";
 import { company } from "@/data/company";
 import { buildMetadata } from "@/lib/seo";
 
@@ -18,8 +20,12 @@ export default function PrivacyPolicyPage() {
         <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Privacy Policy" }]} />
 
         <div className="flex flex-col gap-2">
-          <h1 className="font-display text-3xl font-medium text-fg sm:text-4xl">Privacy Policy</h1>
-          <p className="text-sm text-fg-subtle">Draft template — pending review by a qualified legal professional.</p>
+          <TextReveal as="h1" text="Privacy Policy" className="font-display text-3xl font-medium text-fg sm:text-4xl" />
+          <Reveal delay={0.1}>
+            <p className="text-sm text-fg-subtle">
+              Draft template — pending review by a qualified legal professional.
+            </p>
+          </Reveal>
         </div>
 
         <div className="flex flex-col gap-8 text-sm leading-relaxed text-fg-muted">

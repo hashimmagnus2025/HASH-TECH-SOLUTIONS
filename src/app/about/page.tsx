@@ -5,6 +5,7 @@ import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import Section from "@/components/ui/Section";
 import SectionHeading from "@/components/ui/SectionHeading";
 import Reveal from "@/components/animations/Reveal";
+import TextReveal from "@/components/animations/TextReveal";
 import StaggerGroup from "@/components/animations/StaggerGroup";
 import IconBox from "@/components/ui/IconBox";
 import EnquiryCta from "@/components/business/EnquiryCta";
@@ -25,17 +26,23 @@ export default function AboutPage() {
       <section className="border-b border-line pb-16 pt-10">
         <Container className="flex flex-col gap-8">
           <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "About" }]} />
-          <Reveal className="flex flex-col gap-5">
-            <span className="font-mono text-xs uppercase tracking-[0.25em] text-accent">
-              About {company.name}
-            </span>
-            <h1 className="max-w-3xl font-display text-4xl font-medium leading-tight text-fg sm:text-5xl">
-              {company.tagline}
-            </h1>
-            <p className="max-w-2xl text-lg leading-relaxed text-fg-muted">
-              {company.shortDescription}
-            </p>
-          </Reveal>
+          <div className="flex flex-col gap-5">
+            <Reveal>
+              <span className="font-mono text-xs uppercase tracking-[0.25em] text-accent">
+                About {company.name}
+              </span>
+            </Reveal>
+            <TextReveal
+              as="h1"
+              text={company.tagline}
+              className="max-w-3xl font-display text-4xl font-medium leading-tight text-fg sm:text-5xl"
+            />
+            <Reveal delay={0.15}>
+              <p className="max-w-2xl text-lg leading-relaxed text-fg-muted">
+                {company.shortDescription}
+              </p>
+            </Reveal>
+          </div>
         </Container>
       </section>
 

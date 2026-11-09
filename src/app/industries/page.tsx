@@ -3,6 +3,7 @@ import Container from "@/components/ui/Container";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import Section from "@/components/ui/Section";
 import Reveal from "@/components/animations/Reveal";
+import TextReveal from "@/components/animations/TextReveal";
 import StaggerGroup from "@/components/animations/StaggerGroup";
 import IndustryCard from "@/components/business/IndustryCard";
 import EnquiryCta from "@/components/business/EnquiryCta";
@@ -22,18 +23,24 @@ export default function IndustriesPage() {
       <section className="border-b border-line pb-16 pt-10">
         <Container className="flex flex-col gap-8">
           <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Industries" }]} />
-          <Reveal className="flex flex-col gap-5">
-            <span className="font-mono text-xs uppercase tracking-[0.25em] text-accent">
-              Industries we serve
-            </span>
-            <h1 className="max-w-3xl font-display text-4xl font-medium leading-tight text-fg sm:text-5xl">
-              The same five service categories, applied differently
-            </h1>
-            <p className="max-w-2xl text-lg leading-relaxed text-fg-muted">
-              Computers, networking, CCTV, AMC and software solutions — scoped to how
-              each kind of organization actually operates.
-            </p>
-          </Reveal>
+          <div className="flex flex-col gap-5">
+            <Reveal>
+              <span className="font-mono text-xs uppercase tracking-[0.25em] text-accent">
+                Industries we serve
+              </span>
+            </Reveal>
+            <TextReveal
+              as="h1"
+              text="The same five service categories, applied differently"
+              className="max-w-3xl font-display text-4xl font-medium leading-tight text-fg sm:text-5xl"
+            />
+            <Reveal delay={0.15}>
+              <p className="max-w-2xl text-lg leading-relaxed text-fg-muted">
+                Computers, networking, CCTV, AMC and software solutions — scoped to how
+                each kind of organization actually operates.
+              </p>
+            </Reveal>
+          </div>
         </Container>
       </section>
 

@@ -6,6 +6,7 @@ import IconBox from "@/components/ui/IconBox";
 import Button from "@/components/ui/Button";
 import ServiceCard from "@/components/business/ServiceCard";
 import Reveal from "@/components/animations/Reveal";
+import TextReveal from "@/components/animations/TextReveal";
 import StaggerGroup from "@/components/animations/StaggerGroup";
 import { getServiceCategory } from "@/data/service-categories";
 import { getRelatedServices } from "@/data/services";
@@ -31,20 +32,32 @@ export default function ServiceDetail({ service }: { service: ServiceItem }) {
 
           <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
             <div className="flex flex-col gap-5">
-              <div className="flex items-center gap-3">
+              <Reveal className="flex items-center gap-3">
                 <IconBox icon={Icon} />
                 <Badge>{service.id.toUpperCase()}</Badge>
                 {category && <Badge tone="muted">{category.shortName}</Badge>}
-              </div>
-              <h1 className="max-w-2xl font-display text-4xl font-medium leading-tight text-fg sm:text-5xl">
-                {service.name}
-              </h1>
-              <p className="max-w-xl text-lg leading-relaxed text-fg-muted">{service.shortDescription}</p>
+              </Reveal>
+              <TextReveal
+                as="h1"
+                text={service.name}
+                className="max-w-2xl font-display text-4xl font-medium leading-tight text-fg sm:text-5xl"
+              />
+              <Reveal delay={0.15}>
+                <p className="max-w-xl text-lg leading-relaxed text-fg-muted">{service.shortDescription}</p>
+              </Reveal>
             </div>
 
-            <Button href="/contact" variant="primary" size="lg" icon={<ArrowRight className="h-4 w-4" />} className="shrink-0">
-              Enquire About This Service
-            </Button>
+            <Reveal delay={0.25}>
+              <Button
+                href="/contact"
+                variant="primary"
+                size="lg"
+                icon={<ArrowRight className="h-4 w-4" />}
+                className="shrink-0"
+              >
+                Enquire About This Service
+              </Button>
+            </Reveal>
           </div>
         </Container>
       </section>

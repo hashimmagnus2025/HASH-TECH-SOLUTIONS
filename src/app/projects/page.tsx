@@ -4,6 +4,7 @@ import Container from "@/components/ui/Container";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import Section from "@/components/ui/Section";
 import Reveal from "@/components/animations/Reveal";
+import TextReveal from "@/components/animations/TextReveal";
 import StaggerGroup from "@/components/animations/StaggerGroup";
 import ProjectCard from "@/components/business/ProjectCard";
 import EnquiryCta from "@/components/business/EnquiryCta";
@@ -23,27 +24,33 @@ export default function ProjectsPage() {
       <section className="border-b border-line pb-16 pt-10">
         <Container className="flex flex-col gap-8">
           <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Projects" }]} />
-          <Reveal className="flex flex-col gap-5">
-            <span className="font-mono text-xs uppercase tracking-[0.25em] text-accent">
-              Projects
-            </span>
-            <h1 className="max-w-3xl font-display text-4xl font-medium leading-tight text-fg sm:text-5xl">
-              Case studies
-            </h1>
-            <p className="max-w-2xl text-lg leading-relaxed text-fg-muted">
-              This page&apos;s layout is built and ready — the entries below are
-              clearly labeled demo content, not real completed work.
-            </p>
-          </Reveal>
+          <div className="flex flex-col gap-5">
+            <Reveal>
+              <span className="font-mono text-xs uppercase tracking-[0.25em] text-accent">
+                Projects
+              </span>
+            </Reveal>
+            <TextReveal
+              as="h1"
+              text="Case studies"
+              className="max-w-3xl font-display text-4xl font-medium leading-tight text-fg sm:text-5xl"
+            />
+            <Reveal delay={0.15}>
+              <p className="max-w-2xl text-lg leading-relaxed text-fg-muted">
+                This page&apos;s layout is built and ready — the entries below are
+                clearly labeled demo content, not real completed work.
+              </p>
+            </Reveal>
+          </div>
 
-          <div className="flex items-start gap-3 rounded-2xl border border-signal/30 bg-surface p-5">
+          <Reveal delay={0.25} className="flex items-start gap-3 rounded-2xl border border-signal/30 bg-surface p-5">
             <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-signal" aria-hidden />
             <p className="text-sm leading-relaxed text-fg-muted">
               Every project below is placeholder content for layout purposes only. No
               customer names, locations or project details here are real — genuine
               case studies will replace these once available.
             </p>
-          </div>
+          </Reveal>
         </Container>
       </section>
 

@@ -4,6 +4,8 @@ import { Mail, MapPin, Phone, Clock } from "lucide-react";
 import Container from "@/components/ui/Container";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import Reveal from "@/components/animations/Reveal";
+import TextReveal from "@/components/animations/TextReveal";
+import StaggerGroup from "@/components/animations/StaggerGroup";
 import ContactInfoCard from "@/components/business/ContactInfoCard";
 import ContactForm from "@/components/sections/contact/ContactForm";
 import { WhatsAppIcon } from "@/components/ui/icons/SocialIcons";
@@ -36,16 +38,22 @@ export default function ContactPage({ searchParams }: ContactPageProps) {
       <Container className="flex flex-col gap-10">
         <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Contact" }]} />
 
-        <Reveal className="flex flex-col gap-5">
-          <span className="font-mono text-xs uppercase tracking-[0.25em] text-accent">Get in touch</span>
-          <h1 className="max-w-2xl font-display text-4xl font-medium leading-tight text-fg sm:text-5xl">
-            Let&apos;s talk about what you need.
-          </h1>
-          <p className="max-w-xl text-lg leading-relaxed text-fg-muted">
-            One form, one team — whether it&apos;s a single repair or a full office
-            rollout.
-          </p>
-        </Reveal>
+        <div className="flex flex-col gap-5">
+          <Reveal>
+            <span className="font-mono text-xs uppercase tracking-[0.25em] text-accent">Get in touch</span>
+          </Reveal>
+          <TextReveal
+            as="h1"
+            text="Let's talk about what you need."
+            className="max-w-2xl font-display text-4xl font-medium leading-tight text-fg sm:text-5xl"
+          />
+          <Reveal delay={0.15}>
+            <p className="max-w-xl text-lg leading-relaxed text-fg-muted">
+              One form, one team — whether it&apos;s a single repair or a full office
+              rollout.
+            </p>
+          </Reveal>
+        </div>
 
         <div className="grid gap-10 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
           <Reveal delay={0.1} className="rounded-3xl border border-line bg-surface p-6 sm:p-8">
@@ -54,7 +62,7 @@ export default function ContactPage({ searchParams }: ContactPageProps) {
             </Suspense>
           </Reveal>
 
-          <Reveal delay={0.15} className="flex flex-col gap-4">
+          <StaggerGroup className="flex flex-col gap-4">
             <ContactInfoCard icon={Phone} label="Call" value={company.phoneDisplay} href={`tel:${company.phone}`} />
             <ContactInfoCard
               icon={WhatsAppIcon}
@@ -76,7 +84,7 @@ export default function ContactPage({ searchParams }: ContactPageProps) {
                 Map will appear here once the office location is confirmed.
               </p>
             </div>
-          </Reveal>
+          </StaggerGroup>
         </div>
       </Container>
     </section>

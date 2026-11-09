@@ -6,6 +6,7 @@ import Section from "@/components/ui/Section";
 import SectionHeading from "@/components/ui/SectionHeading";
 import IconBox from "@/components/ui/IconBox";
 import Reveal from "@/components/animations/Reveal";
+import TextReveal from "@/components/animations/TextReveal";
 import StaggerGroup from "@/components/animations/StaggerGroup";
 import ServiceCard from "@/components/business/ServiceCard";
 import EnquiryCta from "@/components/business/EnquiryCta";
@@ -41,19 +42,25 @@ export default function AmcServicesPage() {
       <section className="border-b border-line pb-16 pt-10">
         <Container className="flex flex-col gap-8">
           <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "AMC Services" }]} />
-          <Reveal className="flex flex-col gap-5">
-            <span className="font-mono text-xs uppercase tracking-[0.25em] text-accent">
-              AMC &amp; maintenance services
-            </span>
-            <h1 className="max-w-3xl font-display text-4xl font-medium leading-tight text-fg sm:text-5xl">
-              Preventive maintenance is cheaper than downtime.
-            </h1>
-            <p className="max-w-2xl text-lg leading-relaxed text-fg-muted">
-              An Annual Maintenance Contract puts someone on the hook to check before
-              something breaks — across computers, networking, CCTV and servers —
-              instead of waiting for a call after it already has.
-            </p>
-          </Reveal>
+          <div className="flex flex-col gap-5">
+            <Reveal>
+              <span className="font-mono text-xs uppercase tracking-[0.25em] text-accent">
+                AMC &amp; maintenance services
+              </span>
+            </Reveal>
+            <TextReveal
+              as="h1"
+              text="Preventive maintenance is cheaper than downtime."
+              className="max-w-3xl font-display text-4xl font-medium leading-tight text-fg sm:text-5xl"
+            />
+            <Reveal delay={0.15}>
+              <p className="max-w-2xl text-lg leading-relaxed text-fg-muted">
+                An Annual Maintenance Contract puts someone on the hook to check before
+                something breaks — across computers, networking, CCTV and servers —
+                instead of waiting for a call after it already has.
+              </p>
+            </Reveal>
+          </div>
         </Container>
       </section>
 

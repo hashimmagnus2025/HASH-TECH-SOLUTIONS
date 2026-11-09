@@ -39,11 +39,12 @@ pass, so nothing leaks across route changes or remounts.
 |---|---|
 | `<Reveal>` | Wrap one block that should fade + rise in on scroll. Default choice for section headings, paragraphs, sidebars. |
 | `<StaggerGroup>` | Wrap a row/grid of cards. Every direct child staggers in — don't nest `<Reveal>` inside it, the children are already the animated targets. |
-| `<TextReveal>` | Word-by-word mask reveal for **one headline per page at most** — it's the "thesis statement" treatment (currently just the homepage H1), not a general heading style. Plain word-splitting, no SplitText dependency. |
+| `<TextReveal>` | Word-by-word mask reveal for **one headline per page at most** — it's the "thesis statement" treatment, not a general heading style. Plain word-splitting, no SplitText dependency. Available for any page that wants this treatment; the homepage H1 no longer uses it (see below). |
 | `<ImageReveal>` | Clip-path wipe reveal for media. Built into `ProductCard` and `ProjectCard` directly, so it's automatic — don't wrap their images again. |
 | `<MagneticButton>` | Wrap **primary CTAs only** (hero, EnquiryCta, AMC highlight). Wrapping every button dilutes the effect into noise — see Motion Design Rules below. |
 | `<ScrollSpine>` | A line that grows downward (`scaleY`, transform-origin top) as its parent scrolls through the viewport. Used behind `WorkingProcess`'s numbered steps. Measures `el.parentElement` as its own trigger — just place it inside the container it should track. |
 | `<PageTransition>` (via `app/template.tsx`) | Mounts fresh on every route change. **Transform-only, no opacity** — see the note below. |
+| `<ScrollProgressIndicator>` | Mounted once in `app/layout.tsx`, above `<Navbar>`. A 3px bar fixed at the very top of the viewport (`z-[60]`, above the navbar's `z-50`) that fills as the page scrolls. The one ScrollTrigger-driven effect in this codebase left active under `prefers-reduced-motion` — see its own doc comment for why. |
 
 ## Why `PageTransition` never touches opacity
 
@@ -62,22 +63,52 @@ cue on top.
 animation, check whether something inside it already animates its own
 opacity in. If so, make the outer one transform-only.
 
-## One-off GSAP effects that don't have a shared hook
+## The hero's master timeline (`components/sections/home/Hero.tsx`)
 
-A few effects are specific enough to one component that pulling them into a
-shared hook would've been premature abstraction:
+The hero is the one place in this codebase with real GSAP-plugin
+firepower, because it's the one place where a scattering of independent
+`<Reveal>`s wasn't good enough — the brief asked for one *coordinated*
+cinematic opening sequence, not several components animating
+independently and hoping the timing lines up. So `Hero.tsx` is a client
+component that owns one master `gsap.timeline()` and reaches directly into
+its child components' DOM via forwarded refs (`HeroScene`, `HeroBackground`,
+`HeroParticles` are all deliberately "dumb" — they render markup and, at
+most, their own *independent, perpetual* loops; `Hero.tsx` drives every
+*entrance* animation itself). `lib/gsap.ts` registers three plugins beyond
+`ScrollTrigger` for this — all already bundled free in the installed `gsap`
+package (no new dependency):
 
-- **`HeroTopology`** — the generative network diagram in the hero. Two
-  independent `useEffect`s: one plays the mount-time draw-in timeline
-  (stroke-dashoffset on the edges, a `back.out` pop on the nodes, a single
-  settle-pulse on the center mark — deliberately *not* looped), the other
-  applies a 48px scroll-scrubbed parallax drift to the whole diagram.
-- **`HeroAmbientBackground`** — two gradient blobs drifting ~20–30px over
-  18–22 seconds, `yoyo: true, repeat: -1`. This is the one deliberate
-  exception to "avoid infinite animations" elsewhere in this doc: the
-  amplitude is small and the period long enough that it reads as "the
-  background is alive," not as a looping effect you consciously notice.
-  Skipped entirely under reduced motion.
+- **`SplitText`**, with `{ type: "words", mask: "words" }` — proper
+  per-word mask-reveal on the headline. Replaces a hand-rolled word-span
+  approach for this specific case because SplitText handles responsive
+  re-wrapping correctly; `<TextReveal>` (above) still exists for pages that
+  don't need to be this tightly choreographed.
+- **`DrawSVGPlugin`** — draws the data-trace edges from the hardware core
+  out to each of the five service-category nodes (`drawSVG: "0%" → "100%"`).
+- **`MotionPathPlugin`** — drives the one perpetual loop in the hero: a
+  single pulse dot per edge, traveling the path on repeat. Small, slow,
+  one per line — the same restraint as the ambient background drift below.
+
+The 7-step sequence (background → particles → main visual, back-blade to
+front-blade to nodes to edges → headline mask → eyebrow/subcopy → CTAs →
+category-code labels) is one timeline with hand-placed start offsets, not
+seven independent triggers — that's what "coordinated timing" means in
+practice here. Mouse parallax (`rotationX`/`rotationY` via `gsap.quickTo`,
+fine-pointer only) and the scroll-exit recede (`scrub: true`, no pinning)
+are two further *separate* effects in the same file, each targeting
+different transform properties on the same scene node so they never fight
+each other.
+
+`HeroBackground` runs its own independent ambient drift — two gradient
+blobs plus a central "stage light," each drifting 20–30px over 14–22
+seconds, `yoyo: true, repeat: -1`. This is the one deliberate exception to
+"avoid infinite animations" elsewhere in this doc: the amplitude is small
+and the period long enough that it reads as "the background is alive," not
+as a looping effect you consciously notice. `HeroParticles` similarly
+self-contains a gentle perpetual bob, started only after the entrance
+timeline's own particle-activation step. Both skip their loops entirely
+under reduced motion; `Hero.tsx`'s own reduced-motion branch sets every
+layer straight to its final visible state with no animation at all.
 
 ## Motion design rules actually enforced in this codebase
 

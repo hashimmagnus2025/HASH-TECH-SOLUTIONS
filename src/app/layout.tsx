@@ -4,6 +4,8 @@ import Navbar from "@/components/navigation/Navbar";
 import Footer from "@/components/layout/Footer";
 import WhatsAppButton from "@/components/layout/WhatsAppButton";
 import SmoothScrollProvider from "@/components/animations/SmoothScrollProvider";
+import ScrollProgressIndicator from "@/components/animations/ScrollProgressIndicator";
+import CursorGlow from "@/components/animations/CursorGlow";
 import { buildMetadata } from "@/lib/seo";
 import { env } from "@/lib/env";
 import { toJsonLdScript } from "@/lib/jsonLd";
@@ -51,10 +53,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <SmoothScrollProvider>
           <a
             href="#main-content"
-            className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-fg"
+            className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-100 focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-fg"
           >
             Skip to content
           </a>
+          <ScrollProgressIndicator />
+          <CursorGlow />
           <Navbar />
           <main id="main-content" className="flex-1">
             {children}
