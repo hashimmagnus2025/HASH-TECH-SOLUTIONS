@@ -63,52 +63,47 @@ cue on top.
 animation, check whether something inside it already animates its own
 opacity in. If so, make the outer one transform-only.
 
-## The hero's master timeline (`components/sections/home/Hero.tsx`)
+## The hero (`components/sections/home/Hero.tsx` + `HeroShaderField.tsx`)
 
-The hero is the one place in this codebase with real GSAP-plugin
-firepower, because it's the one place where a scattering of independent
-`<Reveal>`s wasn't good enough — the brief asked for one *coordinated*
-cinematic opening sequence, not several components animating
-independently and hoping the timing lines up. So `Hero.tsx` is a client
-component that owns one master `gsap.timeline()` and reaches directly into
-its child components' DOM via forwarded refs (`HeroScene`, `HeroBackground`,
-`HeroParticles` are all deliberately "dumb" — they render markup and, at
-most, their own *independent, perpetual* loops; `Hero.tsx` drives every
-*entrance* animation itself). `lib/gsap.ts` registers three plugins beyond
-`ScrollTrigger` for this — all already bundled free in the installed `gsap`
-package (no new dependency):
+Second rewrite of this hero. The first version (an SVG network diagram —
+`HeroScene`/`HeroBackground`/`HeroParticles`) was rejected outright as too
+close to a generic "abstract tech diagram" hero, not a minor-tweak problem.
+Those three files are gone; nothing in the current version reuses them.
 
-- **`SplitText`**, with `{ type: "words", mask: "words" }` — proper
-  per-word mask-reveal on the headline. Replaces a hand-rolled word-span
-  approach for this specific case because SplitText handles responsive
-  re-wrapping correctly; `<TextReveal>` (above) still exists for pages that
-  don't need to be this tightly choreographed.
-- **`DrawSVGPlugin`** — draws the data-trace edges from the hardware core
-  out to each of the five service-category nodes (`drawSVG: "0%" → "100%"`).
-- **`MotionPathPlugin`** — drives the one perpetual loop in the hero: a
-  single pulse dot per edge, traveling the path on repeat. Small, slow,
-  one per line — the same restraint as the ambient background drift below.
+**Current concept — "Signal Field":** a full-bleed custom WebGL shader
+(`HeroShaderField`) is the entire hero background, not a right-column
+panel. No objects, no particles, no diagram — a slowly evolving,
+cursor-reactive field of light in the brand's ink/primary/accent palette,
+rendered by a single fragment shader (domain-warped FBM noise, built on
+the standard Ashima Arts 2D simplex implementation — not experimental
+math). It's raw WebGL via `<canvas>`, deliberately **not** Three.js/React
+Three Fiber: a single full-screen shader plane doesn't need a scene graph,
+and pulling in R3F for this would add real bundle weight and SSR surface
+area for a job a canvas + two shaders already does. A dark linear-gradient
+scrim sits between the shader and the text (plain CSS) so headline
+contrast never depends on what the shader happens to be doing underneath
+at that moment.
 
-The 7-step sequence (background → particles → main visual, back-blade to
-front-blade to nodes to edges → headline mask → eyebrow/subcopy → CTAs →
-category-code labels) is one timeline with hand-placed start offsets, not
-seven independent triggers — that's what "coordinated timing" means in
-practice here. Mouse parallax (`rotationX`/`rotationY` via `gsap.quickTo`,
-fine-pointer only) and the scroll-exit recede (`scrub: true`, no pinning)
-are two further *separate* effects in the same file, each targeting
-different transform properties on the same scene node so they never fight
-each other.
+`Hero.tsx` owns one master `gsap.timeline()`: the shader fades in first
+(the "cinematic lighting" beat), then eyebrow → headline (`SplitText`,
+`{ type: "words", mask: "words" }`) → subcopy → CTAs, each at a hand-placed
+offset rather than independent triggers. Two further *separate* effects in
+the same file: a subtle foreground parallax (the text drifts a few px
+against the field on pointer move, fine-pointer only) and a scroll-exit
+recede (`scrub: true`, no pinning) that fades and scales the shader as the
+user scrolls past — each targets different transform properties so they
+never fight each other or the entrance timeline.
 
-`HeroBackground` runs its own independent ambient drift — two gradient
-blobs plus a central "stage light," each drifting 20–30px over 14–22
-seconds, `yoyo: true, repeat: -1`. This is the one deliberate exception to
-"avoid infinite animations" elsewhere in this doc: the amplitude is small
-and the period long enough that it reads as "the background is alive," not
-as a looping effect you consciously notice. `HeroParticles` similarly
-self-contains a gentle perpetual bob, started only after the entrance
-timeline's own particle-activation step. Both skip their loops entirely
-under reduced motion; `Hero.tsx`'s own reduced-motion branch sets every
-layer straight to its final visible state with no animation at all.
+`HeroShaderField` manages its own lifecycle independently of the entrance
+timeline: it pauses its `requestAnimationFrame` loop when the tab is
+hidden (`visibilitychange`) or the hero scrolls out of view
+(`IntersectionObserver`), caps device pixel ratio (1.25 on narrow
+viewports, 2 otherwise) so it doesn't tax mobile GPUs, renders exactly one
+static frame under `prefers-reduced-motion` instead of looping, and falls
+back to a plain CSS gradient if `canvas.getContext("webgl")` ever returns
+null. Its forwarded ref and its own internal pointer-tracking ref are
+*the same DOM node* (merged manually, same pattern as `HeroParticles` used
+to) — keeping the positioned box and the thing GSAP animates unambiguous.
 
 ## Motion design rules actually enforced in this codebase
 
