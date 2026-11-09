@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" role="img" aria-label="HashTech Solutions industry placeholder image">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0b1120"/>
+      <stop offset="100%" stop-color="#05070d"/>
+    </linearGradient>
+    <linearGradient id="line" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#3b6ef6"/>
+      <stop offset="100%" stop-color="#37e6c4"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#bg)"/>
+  <g stroke="rgba(245,247,251,0.08)" stroke-width="1">
+    <path d="M0 150 H800"/>
+    <path d="M0 300 H800"/>
+    <path d="M0 450 H800"/>
+    <path d="M200 0 V600"/>
+    <path d="M400 0 V600"/>
+    <path d="M600 0 V600"/>
+  </g>
+  <g fill="none" stroke="url(#line)" stroke-width="2" opacity="0.8">
+    <rect x="300" y="340" width="60" height="120"/>
+    <rect x="370" y="280" width="60" height="180"/>
+    <rect x="440" y="220" width="60" height="240"/>
+  </g>
+  <text x="40" y="550" fill="#6b7694" font-family="monospace" font-size="18" letter-spacing="2">HASHTECH / INDUSTRY IMAGE PLACEHOLDER</text>
+</svg>
