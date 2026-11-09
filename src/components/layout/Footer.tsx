@@ -69,7 +69,16 @@ export default function Footer() {
 
       <Container className="flex flex-col gap-2 border-t border-line py-6 text-xs text-fg-subtle sm:flex-row sm:items-center sm:justify-between">
         <p>
-          © <CurrentYear /> {company.legalName}. All rights reserved.
+          Designed and developed by{" "}
+          <a
+            href="https://magnusideas.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="transition-colors hover:text-fg"
+          >
+            Magnus Ideas Pvt Ltd
+          </a>
+          . © <CurrentYear /> {company.legalName}. All rights reserved.
         </p>
         <div className="flex gap-4">
           <Link href="/privacy-policy" className="group relative inline-block transition-colors hover:text-fg">
