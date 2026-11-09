@@ -75,14 +75,27 @@ export default function ContactPage({ searchParams }: ContactPageProps) {
             <ContactInfoCard
               icon={MapPin}
               label="Address"
-              value={`${company.address.city}, ${company.address.state}, ${company.address.country}`}
+              value={`${company.address.line1.trim()}\n${company.address.line2.trim()}\n${company.address.city}, ${company.address.state.trim()} ${company.address.postalCode}, ${company.address.country}`}
             />
             <ContactInfoCard icon={Clock} label="Hours" value={company.businessHours} />
 
-            <div className="flex aspect-video items-center justify-center rounded-2xl border border-dashed border-line-strong bg-surface text-center">
-              <p className="max-w-xs px-4 text-sm text-fg-subtle">
-                Map will appear here once the office location is confirmed.
-              </p>
+            <div className="aspect-video overflow-hidden rounded-2xl border border-line">
+              {company.mapEmbedUrl ? (
+                <iframe
+                  src={company.mapEmbedUrl}
+                  title="HashTech Solutions location on Google Maps"
+                  className="h-full w-full border-0"
+                  loading="lazy"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen
+                />
+              ) : (
+                <div className="flex h-full items-center justify-center bg-surface px-4 text-center">
+                  <p className="max-w-xs text-sm text-fg-subtle">
+                    Map will appear here once the office location is confirmed.
+                  </p>
+                </div>
+              )}
             </div>
           </StaggerGroup>
         </div>

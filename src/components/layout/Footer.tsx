@@ -33,9 +33,11 @@ export default function Footer() {
               <Mail className="h-4 w-4 text-accent transition-transform duration-300 group-hover:scale-110" aria-hidden />
               {company.email}
             </a>
-            <span className="flex items-center gap-2">
-              <MapPin className="h-4 w-4 text-accent" aria-hidden />
-              {company.address.city}, {company.address.state}
+            <span className="flex items-start gap-2">
+              <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-accent" aria-hidden />
+              <span className="whitespace-pre-line">
+                {`${company.address.line1.trim()}\n${company.address.line2.trim()}\n${company.address.city}, ${company.address.state.trim()} ${company.address.postalCode}, ${company.address.country}`}
+              </span>
             </span>
           </div>
           <SocialLinks className="flex gap-3" />

@@ -23,24 +23,23 @@ export const company: CompanyInfo = {
   vision:
     "To be the IT and security partner businesses keep coming back to, because the systems we set up keep working.",
   // PLACEHOLDER — replace with the confirmed primary contact number.
-  phone: "+910000000000",
-  phoneDisplay: "+91 00000 00000",
+  phone: "+91 98226 50665",
+  phoneDisplay: "+91 98226 50665",
   // PLACEHOLDER — replace with the confirmed WhatsApp business number.
-  whatsapp: "+910000000000",
+  whatsapp: "+91 98226 50665",
   // PLACEHOLDER — replace with the confirmed business email.
-  email: "info@hashtechsolutions.example",
+  email: "sales@hashtechz.com",
   address: {
     // PLACEHOLDER — replace with the confirmed registered office address.
-    line1: "Address Line 1",
-    line2: "Address Line 2",
-    city: "City",
-    state: "State",
-    postalCode: "000000",
+    line1: "Block 14, 4th floor, Shyama homes, Parab Nagar",
+    line2: "Opposite Ashoka MediCover hospital, IT park, Indira Nagar",
+    city: "Nashik",
+    state: "Maharashtra",
+    postalCode: "422009",
     country: "India",
   },
-  // PLACEHOLDER — replace with a real Google Maps embed URL once the
-  // office location is confirmed.
-  mapEmbedUrl: "",
+  mapEmbedUrl:
+    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1874.92588034525!2d73.78793029839481!3d19.972735500000006!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bddeb9bb1f22a2d%3A0x41f9143d797eea7d!2sMagnus%20Ideas%20Pvt%20Ltd!5e0!3m2!1sen!2sin!4v1794209719281!5m2!1sen!2sin",
   // PLACEHOLDER — confirm actual operating hours.
   businessHours: "Mon – Sat, 9:30 AM – 7:00 PM",
   socials: {

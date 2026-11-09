@@ -18,7 +18,7 @@ export default function ContactInfoCard({ icon, label, value, href, external }: 
         <span className="font-mono text-[0.68rem] uppercase tracking-[0.15em] text-fg-subtle">
           {label}
         </span>
-        <span className="text-sm font-medium text-fg">{value}</span>
+        <span className="whitespace-pre-line text-sm font-medium text-fg">{value}</span>
       </div>
     </div>
   );
