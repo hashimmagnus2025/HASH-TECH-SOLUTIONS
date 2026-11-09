@@ -63,47 +63,38 @@ cue on top.
 animation, check whether something inside it already animates its own
 opacity in. If so, make the outer one transform-only.
 
-## The hero (`components/sections/home/Hero.tsx` + `HeroShaderField.tsx`)
+## The hero (`components/sections/home/Hero.tsx`)
 
-Second rewrite of this hero. The first version (an SVG network diagram —
-`HeroScene`/`HeroBackground`/`HeroParticles`) was rejected outright as too
-close to a generic "abstract tech diagram" hero, not a minor-tweak problem.
-Those three files are gone; nothing in the current version reuses them.
+Third iteration. The first version (an SVG network diagram) and the second
+(a full-bleed WebGL shader field, "Signal Field") were both rejected as
+"generic abstract tech background" — not a quality problem with either
+specific execution, but a rejection of the whole category: *any* generative
+background, diagram or shader, read the same way to the client. There is
+no `HeroScene`, `HeroBackground`, `HeroParticles`, or `HeroShaderField`
+anymore; none of them are reused here.
 
-**Current concept — "Signal Field":** a full-bleed custom WebGL shader
-(`HeroShaderField`) is the entire hero background, not a right-column
-panel. No objects, no particles, no diagram — a slowly evolving,
-cursor-reactive field of light in the brand's ink/primary/accent palette,
-rendered by a single fragment shader (domain-warped FBM noise, built on
-the standard Ashima Arts 2D simplex implementation — not experimental
-math). It's raw WebGL via `<canvas>`, deliberately **not** Three.js/React
-Three Fiber: a single full-screen shader plane doesn't need a scene graph,
-and pulling in R3F for this would add real bundle weight and SSR surface
-area for a job a canvas + two shaders already does. A dark linear-gradient
-scrim sits between the shader and the text (plain CSS) so headline
-contrast never depends on what the shader happens to be doing underneath
-at that moment.
+**Current concept: typography is the entire visual event.** No canvas, no
+SVG diagram, no generative anything. Just the headline — oversized
+(`clamp(2.75rem, 8vw, 6.5rem)`), two-tone (white + `--color-primary-bright`
+for emphasis), mask-revealed on load, with individual characters that lift
+and shift toward the accent color as the cursor passes near them. A
+single accent-to-primary rule draws in under the headline as a quiet
+accent device, not a background effect. The five service categories
+appear as a plain-text, functional link row at the bottom of the hero
+(real navigation, not decoration) — the one place this version still nods
+at "infrastructure" content, and only as text.
 
-`Hero.tsx` owns one master `gsap.timeline()`: the shader fades in first
-(the "cinematic lighting" beat), then eyebrow → headline (`SplitText`,
-`{ type: "words", mask: "words" }`) → subcopy → CTAs, each at a hand-placed
-offset rather than independent triggers. Two further *separate* effects in
-the same file: a subtle foreground parallax (the text drifts a few px
-against the field on pointer move, fine-pointer only) and a scroll-exit
-recede (`scrub: true`, no pinning) that fades and scales the shader as the
-user scrolls past — each targets different transform properties so they
-never fight each other or the entrance timeline.
-
-`HeroShaderField` manages its own lifecycle independently of the entrance
-timeline: it pauses its `requestAnimationFrame` loop when the tab is
-hidden (`visibilitychange`) or the hero scrolls out of view
-(`IntersectionObserver`), caps device pixel ratio (1.25 on narrow
-viewports, 2 otherwise) so it doesn't tax mobile GPUs, renders exactly one
-static frame under `prefers-reduced-motion` instead of looping, and falls
-back to a plain CSS gradient if `canvas.getContext("webgl")` ever returns
-null. Its forwarded ref and its own internal pointer-tracking ref are
-*the same DOM node* (merged manually, same pattern as `HeroParticles` used
-to) — keeping the positioned box and the thing GSAP animates unambiguous.
+This is deliberately the lowest-technical-risk option of the three tried
+so far: no WebGL context to fail, no shader math to get wrong, nothing
+that can render blank. `SplitText` (`{ type: "words, chars", mask: "words"
+}`) does both jobs at once — `.words` back the entrance mask-reveal,
+`.chars` back the cursor-interaction, set up in the *same* effect so there
+is only one source of truth for the split instance and one cleanup path
+(`split.revert()`). The cursor interaction itself is plain DOM style
+mutation on pointermove, not GSAP tweens-per-character — cheaper for ~40
+characters than spinning up that many tween instances per frame. The
+scroll-exit (fade + slight rise as you scroll past) targets the headline
+directly; `scrub: true`, never `pin`.
 
 ## Motion design rules actually enforced in this codebase
 
